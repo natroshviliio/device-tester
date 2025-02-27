@@ -1,0 +1,15 @@
+@import url("alk-sanet/css/alk-sanet.min.css");
+@import "tailwindcss";
+
+
+@theme {
+  --font-alk-sanet: "ALK Sanet", sans-serif; 
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
