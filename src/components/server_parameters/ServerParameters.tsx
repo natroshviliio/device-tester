@@ -41,7 +41,7 @@ const ServerParameters: FC<{ setClients: Dispatch<SetStateAction<Client[]>>; set
                     {serverResponse ? "დასრულება" : "გაშვება"}
                 </button>
                 <span className={`ms-auto ${serverResponse ? "text-emerald-600" : "text-red-400"} text-lg font-bold`}>
-                    {(serverResponse === true && "სერვერი გაშვებულია") || (serverResponse === false && "შეცდომა")}
+                    {(serverResponse === true && "სერვერი გაშვებულია") || (serverResponse === false && "პორტი დაკავებულია")}
                 </span>
             </div>
         </div>

@@ -7,6 +7,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import WebSocket, { WebSocketServer } from "ws";
+import { exec, execSync } from "node:child_process";
 
 const require = createRequire(import.meta.url);
 void require;
@@ -98,19 +99,23 @@ wss.on("connection", (socket: WSocket, req) => {
 });
 
 ipcMain.handle("try_connect", async (_, serverPort: string) => {
+    httpServer.listening && httpServer.close();
+
     try {
-        httpServer.listening && httpServer.close();
-        httpServer.listen(serverPort, () => {
-            console.log("Server is running on port:", serverPort);
-        });
-
-        return httpServer.listening;
+        execSync(`netstat -an | find ":${serverPort} "`);
     } catch (err: string | any) {
-        console.log(err.toString());
-
-        console.log("SERVER ALREADY LISTEN!");
-        return false;
+        if (err.toString().startsWith("Error: Command failed:")) {
+            httpServer.listen(serverPort, () => {
+                console.log("Server is running on port:", serverPort);
+            });
+        }
     }
+
+    return httpServer.listening;
+});
+
+httpServer.once("error", () => {
+    console.log("ERROR");
 });
 
 ipcMain.handle("close_server", async () => {
