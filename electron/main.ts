@@ -7,7 +7,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import WebSocket, { WebSocketServer } from "ws";
-import { exec, execSync } from "node:child_process";
+import { execSync } from "node:child_process";
 
 const require = createRequire(import.meta.url);
 void require;
