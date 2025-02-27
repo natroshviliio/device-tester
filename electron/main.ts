@@ -50,7 +50,6 @@ function createWindow() {
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
-        httpServer.close();
         app.quit();
         win = null;
     }
@@ -103,7 +102,12 @@ ipcMain.handle("try_connect", async (_, serverPort: string) => {
     httpServer.listening && httpServer.close();
 
     try {
-        execSync(`netstat -an | find ":${serverPort} "`);
+        const isPortReady = execSync(`netstat -an | find ":${serverPort} "`).toString();
+        if (isPortReady.includes("ESTABLISHED") || isPortReady.includes("TIME_WAIT")) {
+            httpServer.listen(serverPort, () => {
+                console.log("Server is running on port:", serverPort);
+            });
+        }
     } catch (err: string | any) {
         if (err.toString().startsWith("Error: Command failed:")) {
             httpServer.listen(serverPort, () => {
@@ -116,12 +120,13 @@ ipcMain.handle("try_connect", async (_, serverPort: string) => {
 });
 
 ipcMain.handle("close_server", async () => {
-    httpServer.close();
     Sockets.forEach((socket: WSocket) => {
         socket.close();
         wss.clients.delete(socket);
         Sockets.delete(socket);
     });
+
+    httpServer.close();
     return undefined;
 });
 
