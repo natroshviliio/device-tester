@@ -10,12 +10,15 @@ const ServerParameters: FC<{ setClients: Dispatch<SetStateAction<Client[]>>; set
     const handleChangeServerPort = (e: ChangeEvent<HTMLInputElement>) => {
         setServerPort(e.target.value);
     };
-
-    const tryConnect = () => window.ipcRenderer.tryConnect(serverPort).then((res) => setServerResponse(res));
+    const tryConnect = () => {
+        window.ipcRenderer.tryConnect(serverPort).then((res) => setServerResponse(res));
+        document.title = "Device Tester -" + " PORT: " + serverPort;
+    };
     const closeServer = () => {
         window.ipcRenderer.closeServer().then((res) => setServerResponse(res));
         setClients([]);
         setSelectedClients([]);
+        document.title = "Device Tester";
     };
 
     return (

@@ -26,7 +26,7 @@ let win: BrowserWindow | null;
 
 function createWindow() {
     win = new BrowserWindow({
-        width: 1280,
+        width: 1600,
         height: 900,
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
         autoHideMenuBar: true,
@@ -50,6 +50,7 @@ function createWindow() {
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
+        httpServer.close();
         app.quit();
         win = null;
     }
@@ -112,10 +113,6 @@ ipcMain.handle("try_connect", async (_, serverPort: string) => {
     }
 
     return httpServer.listening;
-});
-
-httpServer.once("error", () => {
-    console.log("ERROR");
 });
 
 ipcMain.handle("close_server", async () => {
