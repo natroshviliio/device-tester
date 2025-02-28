@@ -26,15 +26,18 @@ let win: BrowserWindow | null;
 
 function createWindow() {
     win = new BrowserWindow({
+        minWidth: 1280,
         width: 1600,
         height: 900,
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-        autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.mjs"),
         },
     });
 
+    win.setMenuBarVisibility(false);
+
+    // win.webContents.openDevTools();
     // Test active push message to Renderer-process.
     win.webContents.on("did-finish-load", () => {
         win?.webContents.send("main-process-message", new Date().toLocaleString());
@@ -86,6 +89,14 @@ wss.on("connection", (socket: WSocket, req) => {
     win?.webContents.send("client_list_update", { status: "add", client: { id: socket_id, type: socket_type, ip_address: socket_ip } });
 
     Sockets.add(socket);
+
+    socket.on("message", (data) => {
+        win?.webContents.send("client_message_receive", {
+            who: socket.client_information.socket_type + " " + socket.client_information.socket_id,
+            message: data.toString(),
+            time: new Date().toLocaleTimeString("it-IT"),
+        });
+    });
 
     socket.on("close", () => {
         Sockets.delete(socket);

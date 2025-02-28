@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
-import { ChangeEvent, Dispatch, FC, KeyboardEvent, LegacyRef, SetStateAction, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, FC, KeyboardEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { FaRepeat } from "react-icons/fa6";
 import { FiInfo } from "react-icons/fi";
 import { RiSendPlaneFill } from "react-icons/ri";
 import ChatClient from "./ChatClient";
+
+import { BsTrashFill } from "react-icons/bs";
 
 type Chat = {
     selectedClients: Client[];
@@ -62,25 +64,33 @@ const Chat: FC<Chat> = ({ selectedClients, commands, chat, selectClient, setChat
                 sendClientCommand();
             } else if (e.key === "Enter" && e.shiftKey && e.ctrlKey) {
                 setCommand(lastCommand);
-            }
+            } else if (e.key === "C" && e.ctrlKey && e.shiftKey) setChat([]);
         }
     };
 
     const sendClientCommand = () => {
         window.ipcRenderer.sendClientCommand({ clientList: selectedClients, command: command });
-        setChat((chat) => [...chat, { who: "Me", message: command }]);
+        setChat((chat) => [...chat, { who: "Me", message: command, time: new Date().toLocaleTimeString("it-IT") }]);
         setLastCommand(command);
         setCommand("");
     };
+
+    const clearChat = () => setChat([]);
 
     useEffect(() => {
         if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }, [chat]);
 
+    useEffect(() => {
+        window.ipcRenderer.onClientMessage((client) => setChat((chat) => [...chat, client]));
+
+        return () => window.ipcRenderer.removeClientMessage();
+    });
+
     return (
-        <div className="flex flex-col flex-[10] bg-white font-bpg-arial">
+        <div className="flex flex-col flex-[9] bg-white font-bpg-arial max-w-[700px]">
             <div className="bg-white flex flex-col flex-[1] gap-y-5 p-5">
-                <div className="px-2 gap-x-2 border-[1px] border-slate-300 shadow-sm rounded-md w-full h-[55px] flex items-center">
+                <div className="px-2 gap-x-2 border-[1px] border-slate-300 shadow-sm rounded-md min-w-[200px] max-w-[100%] h-[55px] flex items-center overflow-y-hidden flex-nowrap overflow-x-hidden hide-scroll">
                     {selectedClients.length > 0 ? (
                         <AnimatePresence>
                             {selectedClients.map((c) => {
@@ -99,23 +109,34 @@ const Chat: FC<Chat> = ({ selectedClients, commands, chat, selectClient, setChat
                         </AnimatePresence>
                     )}
                 </div>
-                <div className="border-[1px] border-slate-300 shadow-sm rounded-md w-full h-[calc(100vh-24rem)] flex flex-col-reverse overflow-y-hidden">
+                <div className="group border-[1px] border-slate-300 shadow-sm rounded-md w-full h-[calc(100vh-24rem)] flex flex-col-reverse overflow-y-hidden relative">
+                    <button
+                        className="opacity-0 absolute top-[10px] left-[-50px] group-hover:left-[10px] group-hover:opacity-100 transition-all duration-300 flex w-[40px] h-[40px] bg-red-500 hover:bg-red-500/90 active:bg-red-600 text-white rounded-md cursor-pointer shadow-sm items-center justify-center"
+                        onClick={clearChat}>
+                        <BsTrashFill />
+                    </button>
                     <div className="flex flex-col gap-y-5 w-full h-fit p-3 overflow-x-hidden overflow-y-auto" ref={chatRef}>
-                        {chat.map((c, i) => {
-                            return (
-                                <motion.div
-                                    key={c.who + i}
-                                    initial={{ opacity: 0, x: 200 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ type: "spring", damping: 13, stiffness: 200 }}
-                                    className={`flex flex-col w-fit min-w-[150px] max-w-[350px] p-3 border-[1px] border-slate-300 rounded-md ${
-                                        c.who === "Me" ? "ms-auto" : ""
-                                    }`}>
-                                    <span className="text-sm font-bold">{c.who}</span>
-                                    <div className="ml-3 mt-2">{c.message}</div>
-                                </motion.div>
-                            );
-                        })}
+                        <AnimatePresence>
+                            {chat.map((c, i) => {
+                                return (
+                                    <motion.div
+                                        key={c.who + i}
+                                        initial={{ opacity: 0, x: c.who === "Me" ? 200 : -200 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: c.who === "Me" ? 200 : -200, transition: { delay: i / 20 } }}
+                                        transition={{ type: "spring", damping: 13, stiffness: 200 }}
+                                        className={`flex flex-col w-fit min-w-[150px] max-w-[350px] p-3 pb-1 border-[1px] border-slate-300 rounded-md ${
+                                            c.who === "Me" ? "ms-auto" : ""
+                                        }`}>
+                                        <span className="text-sm font-bold">{c.who}</span>
+                                        <div className="ml-3 mt-2">{c.message}</div>
+                                        <div className={`text-[.65rem] text-slate-700 mt-3 ${c.who !== "Me" ? "ms-auto" : ""}`}>
+                                            <i>{c.time}</i>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
+                        </AnimatePresence>
                     </div>
                 </div>
             </div>
@@ -147,7 +168,7 @@ const Chat: FC<Chat> = ({ selectedClients, commands, chat, selectClient, setChat
                     spellCheck={false}
                     onKeyDown={handleSelectCommand}
                     onChange={handleChangeCommand}></textarea>
-                <div className="bg-white flex flex-col gap-y-2 border-[1px] rounded-md border-slate-300 shadow-sm flex-[1] p-2">
+                <div className="bg-white flex flex-col gap-y-2 border-[1px] rounded-md border-slate-300 shadow-sm w-[65px] p-2">
                     <motion.button
                         whileTap={{ scale: 1.1 }}
                         transition={{ type: "spring", damping: 11, stiffness: 300 }}

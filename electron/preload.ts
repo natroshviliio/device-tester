@@ -25,12 +25,16 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
     onClientListUpdate: (callback: (client: { status: string; client?: Client; client_id?: string }) => void) => {
         ipcRenderer.on("client_list_update", (_, client) => callback(client));
     },
-
     removeClientListUpdate: () => ipcRenderer.removeAllListeners("client_list_update"),
 
     destroyClient: (client_id: string) => ipcRenderer.send("client_destroy", client_id),
 
     sendClientCommand: (data: { clientList: Client[]; command: string }) => ipcRenderer.send("client_send_command", data),
+
+    onClientMessage: (callback: (client: ChatMessage) => void) => {
+        ipcRenderer.on("client_message_receive", (_, message) => callback(message));
+    },
+    removeClientMessage: () => ipcRenderer.removeAllListeners("client_message_receive"),
 
     // You can expose other APTs you need here.
     // ...

@@ -5,3 +5,11 @@
 ::-webkit-scrollbar-thumb {
     background-color: gray;
 }
+
+.hide-scroll {
+    overflow: scroll;
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}

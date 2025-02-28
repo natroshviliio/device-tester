@@ -18,6 +18,9 @@ interface Window {
 
         sendClientCommand: (data: { clientList: Client[]; command: string }) => void;
 
+        onClientMessage: (callback: (client: ChatMessage) => void) => void;
+        removeClientMessage: () => void;
+
         destroyClient: (client_id: string) => void;
     };
 }
@@ -37,4 +40,5 @@ type ClientInformation = {
 type ChatMessage = {
     who: string;
     message: string;
+    time: string;
 };
