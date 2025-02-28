@@ -12,6 +12,7 @@
     "dependencies": {
         "@tailwindcss/vite": "^4.0.9",
         "alk-sanet": "^1.0.0",
+        "bpg-arial": "^1.0.0",
         "bufferutil": "^4.0.9",
         "cors": "^2.8.5",
         "express": "^4.21.2",

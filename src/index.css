@@ -1,15 +1,16 @@
 @import url("alk-sanet/css/alk-sanet.min.css");
+@import url("bpg-arial/css/bpg-arial.min.css");
 @import "tailwindcss";
 
-
 @theme {
-  --font-alk-sanet: "ALK Sanet", sans-serif; 
+    --font-alk-sanet: "ALK Sanet", sans-serif;
+    --font-bpg-arial: "BPG Arial", sans-serif;
 }
 
 @layer base {
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 }
