@@ -16,6 +16,8 @@ interface Window {
         onClientListUpdate: (client) => void;
         removeClientListUpdate: () => void;
 
+        sendClientCommand: (data: { clientList: Client[]; command: string }) => void;
+
         destroyClient: (client_id: string) => void;
     };
 }
@@ -30,4 +32,9 @@ type ClientInformation = {
     socket_id: string;
     socket_type: string;
     socket_ip: string;
+};
+
+type ChatMessage = {
+    who: string;
+    message: string;
 };

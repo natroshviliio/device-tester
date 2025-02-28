@@ -5,18 +5,14 @@ import Client from "./Client";
 type DeviceList = {
     clients: Client[];
     setClients: Dispatch<SetStateAction<Client[]>>;
+    selectClient: (client: Client) => void;
     selectedClients: Client[];
     setSelectedClients: Dispatch<SetStateAction<Client[]>>;
     x: number;
     isBoxResizing: (down: boolean) => void;
 };
 
-const DeviceList: FC<DeviceList> = ({ clients, selectedClients, x, setClients, setSelectedClients, isBoxResizing }) => {
-    const selectClient = (client: Client) => {
-        if (selectedClients.some((c) => c.id === client.id)) setSelectedClients((cs) => cs.filter((c) => c.id !== client.id));
-        else setSelectedClients((c) => [...c, client]);
-    };
-
+const DeviceList: FC<DeviceList> = ({ clients, selectedClients, x, setClients, setSelectedClients, isBoxResizing, selectClient }) => {
     const destroyClient = (client_id: string) => {
         window.ipcRenderer.destroyClient(client_id);
         setSelectedClients((sc) => sc.filter((c) => c.id !== client_id));

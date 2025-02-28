@@ -78,8 +78,8 @@ const Sockets = new Set<WSocket>();
 
 wss.on("connection", (socket: WSocket, req) => {
     const protocol: string[] = socket.protocol.split("|");
-    const socket_id = protocol[0];
-    const socket_type = protocol[1];
+    const socket_type = protocol[0];
+    const socket_id = protocol[1];
     const socket_ip = req.socket.remoteAddress?.replace(/[:f]/g, "") as string;
 
     socket.client_information = { socket_id, socket_type, socket_ip };
@@ -93,6 +93,7 @@ wss.on("connection", (socket: WSocket, req) => {
     });
 
     socket.on("error", () => {
+        win?.webContents.send("client_list_update", { status: "destroy", client_id: socket.client_information.socket_id });
         Sockets.delete(socket);
         socket.close();
     });
@@ -130,10 +131,19 @@ ipcMain.handle("close_server", async () => {
     return undefined;
 });
 
+ipcMain.on("client_send_command", (_, data: { clientList: Client[]; command: string }) => {
+    const clients = data.clientList.map((client) => client.id);
+    Sockets.forEach((client) => {
+        if (clients.includes(client.client_information.socket_id)) {
+            client.send(data.command);
+        }
+    });
+});
+
 ipcMain.on("client_destroy", (_, client_id: string) => {
     Sockets.forEach((socket: WSocket) => {
         if (socket.client_information.socket_id === client_id) {
-            socket.close();
+            socket.terminate();
             wss.clients.delete(socket);
             Sockets.delete(socket);
         }

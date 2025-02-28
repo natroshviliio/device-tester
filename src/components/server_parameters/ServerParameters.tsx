@@ -1,9 +1,12 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from "react";
 
-const ServerParameters: FC<{ setClients: Dispatch<SetStateAction<Client[]>>; setSelectedClients: Dispatch<SetStateAction<Client[]>> }> = ({
-    setClients,
-    setSelectedClients,
-}) => {
+type ServerParameters = {
+    setChat: Dispatch<SetStateAction<ChatMessage[]>>;
+    setClients: Dispatch<SetStateAction<Client[]>>;
+    setSelectedClients: Dispatch<SetStateAction<Client[]>>;
+};
+
+const ServerParameters: FC<ServerParameters> = ({ setChat, setClients, setSelectedClients }) => {
     const [serverPort, setServerPort] = useState<string>("");
     const [serverResponse, setServerResponse] = useState<boolean>();
 
@@ -18,6 +21,7 @@ const ServerParameters: FC<{ setClients: Dispatch<SetStateAction<Client[]>>; set
         window.ipcRenderer.closeServer().then((res) => setServerResponse(res));
         setClients([]);
         setSelectedClients([]);
+        setChat([]);
         document.title = "Device Tester";
     };
 
@@ -30,6 +34,7 @@ const ServerParameters: FC<{ setClients: Dispatch<SetStateAction<Client[]>>; set
                     placeholder="პორტი მაგ.: 5000"
                     disabled={serverResponse}
                     onChange={handleChangeServerPort}
+                    onKeyDown={(e) => e.key === "Enter" && tryConnect()}
                 />
                 <button
                     disabled={serverPort.length === 0 || serverPort.match(/[e|-|+]/) ? true : false}

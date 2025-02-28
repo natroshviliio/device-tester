@@ -30,6 +30,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
 
     destroyClient: (client_id: string) => ipcRenderer.send("client_destroy", client_id),
 
+    sendClientCommand: (data: { clientList: Client[]; command: string }) => ipcRenderer.send("client_send_command", data),
+
     // You can expose other APTs you need here.
     // ...
 });
