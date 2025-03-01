@@ -96,9 +96,9 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
             <AnimatePresence>
                 {showCommands && (
                     <motion.div
-                        initial={{ opacity: 0, y: -200 }}
+                        initial={{ opacity: 0, y: -300 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -200 }}
+                        exit={{ opacity: 0, y: -300 }}
                         transition={{ type: "spring", damping: 18, stiffness: 200 }}
                         className="absolute overflow-hidden shadow-sm rounded-md bottom-[calc(100%+10px)] left-[40px] bg-white">
                         <div className="">
