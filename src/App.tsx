@@ -26,7 +26,7 @@ function App() {
     };
 
     return (
-        <div className="select-none w-full h-screen flex flex-col font-alk-sanet">
+        <div className="select-none w-full h-screen overflow-hidden flex flex-col font-alk-sanet">
             <ServerParameters setClients={setClients} setSelectedClients={setSelectedClients} setChat={setChat} />
             <div className="flex flex-[1] bg-white" onMouseMove={resizeDeviceListBox} onMouseUp={() => isBoxResizing(false)}>
                 <DeviceList
