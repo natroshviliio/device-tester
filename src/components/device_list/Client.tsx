@@ -16,7 +16,7 @@ const Client: FC<EachClient> = ({ client, selectedClients, selectClient, destroy
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, x: "-120%" }}
             transition={{ type: "spring", damping: 12, stiffness: 200 }}
-            className={`shadow-sm flex mt-2 cursor-pointer ${
+            className={`border-b border-b-neutral-200 flex mt-2 cursor-pointer ${
                 selectedClients.some((c) => c.id === client.id)
                     ? "bg-slate-600 hover:bg-slate-500 relative text-white"
                     : "bg-gray-50 hover:bg-gray-100 relative text-slate-900"

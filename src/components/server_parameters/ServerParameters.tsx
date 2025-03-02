@@ -1,4 +1,5 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from "react";
+import { appContext } from "../../store";
 
 type ServerParameters = {
     setChat: Dispatch<SetStateAction<ChatMessage[]>>;
@@ -7,6 +8,8 @@ type ServerParameters = {
 };
 
 const ServerParameters: FC<ServerParameters> = ({ setChat, setClients, setSelectedClients }) => {
+    const { defaultTitle, setDocumentTitle } = appContext();
+
     const [serverPort, setServerPort] = useState<string>("");
     const [serverResponse, setServerResponse] = useState<boolean>();
 
@@ -15,18 +18,18 @@ const ServerParameters: FC<ServerParameters> = ({ setChat, setClients, setSelect
     };
     const tryConnect = () => {
         window.ipcRenderer.tryConnect(serverPort).then((res) => setServerResponse(res));
-        document.title = "Device Tester -" + " PORT: " + serverPort;
+        setDocumentTitle(defaultTitle + " - PORT " + serverPort);
     };
     const closeServer = () => {
         window.ipcRenderer.closeServer().then((res) => setServerResponse(res));
         setClients([]);
         setSelectedClients([]);
         setChat([]);
-        document.title = "Device Tester";
+        setDocumentTitle(defaultTitle);
     };
 
     return (
-        <div className="px-6 py-4 flex flex-col flex-0 gap-y-2 shadow-sm z-30">
+        <div className="px-6 py-4 flex flex-col flex-0 gap-y-2 border-b border-neutral-200 z-30">
             <div className="flex gap-x-2 ms-3 items-center">
                 <input
                     className="p-2 rounded-lg border-[1px] outline-none border-slate-400 disabled:text-slate-400"

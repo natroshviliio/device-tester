@@ -156,7 +156,7 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                     onKeyDown={handleSelectCommand}
                     onChange={handleChangeCommand}></textarea>
             </div>
-            <div className="bg-white flex flex-col gap-y-2 border-[1px] rounded-md border-slate-300 shadow-sm w-[65px] p-2">
+            <div className="bg-white flex flex-col gap-y-2 p-2 border-[1px] rounded-md border-slate-300 shadow-sm w-[75px]">
                 <div className="relative flex w-full h-full">
                     <motion.button
                         whileTap={{ scale: 1.1 }}

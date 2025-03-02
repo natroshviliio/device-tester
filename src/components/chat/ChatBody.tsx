@@ -14,7 +14,7 @@ const ChatBody: FC<ChatBody> = ({ chat, clearChat }) => {
     }, [chat]);
 
     return (
-        <div className="group border-[1px] border-slate-300 shadow-sm rounded-md w-full h-[calc(100vh-24rem)] flex flex-col-reverse overflow-y-hidden relative">
+        <div className="group border-[1px] border-slate-300 shadow-sm rounded-md w-full h-[calc(100vh-28rem)] flex flex-col-reverse overflow-y-hidden relative">
             <button
                 className="opacity-0 absolute top-[10px] left-[-50px] group-hover:left-[10px] group-hover:opacity-100 transition-all duration-300 flex w-[40px] h-[40px] bg-red-500 hover:bg-red-500/90 active:bg-red-600 text-white rounded-md cursor-pointer shadow-sm items-center justify-center"
                 onClick={clearChat}>

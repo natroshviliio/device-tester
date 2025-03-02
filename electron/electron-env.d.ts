@@ -22,6 +22,12 @@ interface Window {
         removeClientMessage: () => void;
 
         destroyClient: (client_id: string) => void;
+
+        //Window Back
+
+        minimizeWindow: () => void;
+        maximizeWindow: () => void;
+        closeWindow: () => void;
     };
 }
 

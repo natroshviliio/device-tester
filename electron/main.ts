@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, Notification } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -29,14 +29,16 @@ function createWindow() {
         minWidth: 1280,
         width: 1600,
         height: 900,
+        frame: false,
+        // titleBarStyle: "hiddenInset",
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
         webPreferences: {
             preload: path.join(__dirname, "preload.mjs"),
         },
     });
 
+    app.setAppUserModelId("Device Tester");
     win.setMenuBarVisibility(false);
-    win.show();
 
     // win.webContents.openDevTools();
     // Test active push message to Renderer-process.
@@ -92,11 +94,19 @@ wss.on("connection", (socket: WSocket, req) => {
     Sockets.add(socket);
 
     socket.on("message", (data) => {
+        const { socket_type, socket_id } = socket.client_information;
+
         win?.webContents.send("client_message_receive", {
-            who: socket.client_information.socket_type + " " + socket.client_information.socket_id,
+            who: socket_type + " " + socket_id,
             message: data.toString(),
             time: new Date().toLocaleTimeString("it-IT"),
         });
+
+        new Notification({
+            title: socket_type + " " + socket_id,
+            body: data.toString(),
+            toastXml: "asd",
+        }).show();
     });
 
     socket.on("close", () => {
@@ -160,6 +170,19 @@ ipcMain.on("client_destroy", (_, client_id: string) => {
             Sockets.delete(socket);
         }
     });
+});
+
+//Window Back
+
+ipcMain.on("window_minimize", () => {
+    win?.minimize();
+});
+ipcMain.on("window_maximize", () => {
+    if (win?.isMaximized()) win?.unmaximize();
+    else win?.maximize();
+});
+ipcMain.on("window_close", () => {
+    win?.close();
 });
 
 app.whenReady().then(createWindow);

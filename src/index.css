@@ -1,11 +1,17 @@
 @import url("alk-sanet/css/alk-sanet.min.css");
 @import url("bpg-arial/css/bpg-arial.min.css");
+@import url("bpg-square-banner-caps-2013/css/bpg-square-banner-caps-2013.min.css");
 @import "tailwindcss";
 
 @theme {
     --font-alk-sanet: "ALK Sanet", sans-serif;
     --font-bpg-arial: "BPG Arial", sans-serif;
+    --font-bpg-square-banner-caps-2013: "BPG Square Banner Caps 2013", sans-serif;
+
+    --shadow-ct-1: 0px 1px 5px 1px rgba(100, 100, 100, 0.1);
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
     input[type="number"]::-webkit-inner-spin-button,
@@ -13,4 +19,8 @@
         -webkit-appearance: none;
         margin: 0;
     }
+}
+@utility drag {
+    --webkit-app-region: drag;
+    app-region: drag;
 }

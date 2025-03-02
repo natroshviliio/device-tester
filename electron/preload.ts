@@ -36,6 +36,10 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
     },
     removeClientMessage: () => ipcRenderer.removeAllListeners("client_message_receive"),
 
+    minimizeWindow: () => ipcRenderer.send("window_minimize"),
+    maximizeWindow: () => ipcRenderer.send("window_maximize"),
+    closeWindow: () => ipcRenderer.send("window_close"),
+
     // You can expose other APTs you need here.
     // ...
 });

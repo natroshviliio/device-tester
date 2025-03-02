@@ -32,11 +32,11 @@ const DeviceList: FC<DeviceList> = ({ clients, selectedClients, x, setClients, s
 
     return (
         <div
-            className={`min-w-[250px] max-w-[500px] flex overflow-hidden h-[calc(100vh-5rem)] relative shadow-[4px_0px_10px_-8px_gray] z-20`}
+            className={`min-w-[250px] max-w-[500px] flex overflow-hidden h-[calc(100vh-7.9rem)] pb-1 relative border-r border-r-neutral-200 z-20`}
             style={{ width: x + "px" }}>
             <div className="w-full flex flex-col overflow-x-hidden hide-scroll relative">
                 <div
-                    className={`px-2 py-3 shadow-sm text-center sticky top-0 transition-all duration-300 text-nowrap bg-white z-20 ${
+                    className={`px-2 py-3 text-center sticky top-0 transition-all duration-300 text-nowrap bg-white z-20 ${
                         x < 300 ? "text-[.8rem]" : ""
                     }`}>
                     დაკავშირებული მოწყობილობები
