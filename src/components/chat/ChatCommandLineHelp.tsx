@@ -17,9 +17,9 @@ const ChatCommandLineHelp = () => {
             transition={{ type: "spring", damping: 15, stiffness: 200, delay: 0 }}
             drag={true}
             dragMomentum={false}
-            className={`w-[800px] p-4 z-[99] shadow-sm rounded-lg absolute cursor-move bg-slate-100 right-[50%] bottom-[calc(100%+20px)] translate-x-[50%] text-start font-bpg-arial`}>
+            className={`w-[800px] p-4 z-[100] rounded-lg absolute cursor-move bg-neutral-100 dark:bg-neutral-600 right-[50%] bottom-[calc(100%+20px)] translate-x-[50%] text-start font-bpg-arial`}>
             <div className="text-[1.3rem] flex items-center font-alk-sanet font-bold">
-                <span>სწრაფი მოქმედებების ინსტრუქცია</span>
+                <span className="dark:text-neutral-400">სწრაფი მოქმედებების ინსტრუქცია</span>
                 <motion.span
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: "spring", damping: 12, stiffness: 200 }}
@@ -28,40 +28,42 @@ const ChatCommandLineHelp = () => {
                     <CgDropOpacity />
                 </motion.span>
             </div>
-            <div className="mt-4 flex flex-col gap-y-4">
+            <div className="mt-4 flex flex-col gap-y-4 dark:text-neutral-300">
                 <span className="flex items-center">
                     მზა ბრძანების ჩასაკოპირებლად ტექსტურ ველში გამოიყენეთ სიმბოლო{" "}
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.8rem] rounded-sm mx-2">@</span>
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.8rem] rounded-sm mx-2">@</span>
                 </span>
                 <span className="flex items-center">
                     მზა ბრძანებების შემოთავაზების გასაუქმებლად{" "}
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">ESC</span>
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">ESC</span>
                 </span>
                 <span className="items-center">
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.8rem] rounded-sm mr-2">@</span>
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.8rem] rounded-sm mr-2">@</span>
                     ჩანაწერის არსებობის შემთხვევაში შემოთავაზებული ბრძანებების გაუქმებიდან მათი ხელახლა გამოტანა შესაძლებელია{" "}
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">TAB</span> ღილაკით
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">TAB</span> ღილაკით
                 </span>
                 <span className="flex items-center">
-                    ბრძანების გასაგზავნად <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">ENTER</span>
+                    ბრძანების გასაგზავნად{" "}
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">ENTER</span>
                 </span>
                 <span className="flex items-center">
                     ბოლოს გამოყენებული ბრძანების ჩასასმელად{" "}
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">SHIFT</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">ENTER</span>
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">SHIFT</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">ENTER</span>
                 </span>
                 <span className="flex items-center">
-                    ჩატის გასასუფთავებლად <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">SHIFT</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">C</span>
+                    ჩატის გასასუფთავებლად{" "}
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">SHIFT</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">C</span>
                 </span>
                 <span className="items-center">
                     ბრძანების გაგზავნის შემდეგ ტექსტური ველის გაწმენდის (დაშვება/გაუქმების) გადასართველად
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">SHIFT</span>+
-                    <span className="px-2 py-1 bg-slate-800 text-slate-200 text-[.7rem] rounded-sm mx-2">N</span>
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">CTRL</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">SHIFT</span>+
+                    <span className="px-2 py-1 bg-neutral-800 dark:bg-neutral-500 text-slate-200 text-[.7rem] rounded-sm mx-2">N</span>
                 </span>
             </div>
         </motion.div>

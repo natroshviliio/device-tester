@@ -5,13 +5,14 @@ import ChatCommandLine from "./ChatCommandLine";
 
 type Chat = {
     selectedClients: Client[];
+    setSelectedClients: Dispatch<SetStateAction<Client[]>>;
     commands: string[];
     selectClient: (client: Client) => void;
     chat: ChatMessage[];
     setChat: Dispatch<SetStateAction<ChatMessage[]>>;
 };
 
-const Chat: FC<Chat> = ({ selectedClients, commands, chat, selectClient, setChat }) => {
+const Chat: FC<Chat> = ({ selectedClients, commands, chat, setSelectedClients, selectClient, setChat }) => {
     const clearChat = () => setChat([]);
 
     useEffect(() => {
@@ -21,9 +22,9 @@ const Chat: FC<Chat> = ({ selectedClients, commands, chat, selectClient, setChat
     });
 
     return (
-        <div className="flex flex-col flex-[9] bg-white font-bpg-arial max-w-[700px]">
-            <div className="bg-white flex flex-col flex-[1] gap-y-5 p-5">
-                <ChatClientList selectedClients={selectedClients} selectClient={selectClient} />
+        <div className="flex flex-col flex-[9] bg-white dark:bg-neutral-800 font-bpg-arial max-w-[800px] border-r border-neutral-200 dark:border-r-neutral-700">
+            <div className="bg-white dark:bg-neutral-800 flex flex-col flex-[1] gap-y-5 p-5">
+                <ChatClientList selectedClients={selectedClients} setSelectedClients={setSelectedClients} selectClient={selectClient} />
                 <ChatBody chat={chat} clearChat={clearChat} />
             </div>
             <ChatCommandLine commands={commands} selectedClients={selectedClients} setChat={setChat} />

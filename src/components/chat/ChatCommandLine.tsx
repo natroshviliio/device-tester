@@ -92,7 +92,7 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
     };
 
     return (
-        <div className="bg-white flex gap-x-2 flex-[10] px-5 pb-5 relative">
+        <div className="bg-white dark:bg-neutral-800 flex gap-x-2 flex-[10] px-5 pb-5 relative">
             <AnimatePresence>
                 {showCommands && (
                     <motion.div
@@ -100,11 +100,15 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -300 }}
                         transition={{ type: "spring", damping: 18, stiffness: 200 }}
-                        className="absolute overflow-hidden shadow-sm rounded-md bottom-[calc(100%+10px)] left-[40px] bg-white">
+                        className="absolute overflow-hidden shadow-sm rounded-md bottom-[calc(100%+10px)] left-[40px] bg-white text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300">
                         <div className="">
                             {commands.map((cmd, i) => {
                                 return (
-                                    <div key={i} className={`px-4 py-2 ${selectedCommandIndex === i ? "bg-slate-200" : ""} hover:bg-slate-200`}>
+                                    <div
+                                        key={i}
+                                        className={`px-4 py-2 ${
+                                            selectedCommandIndex === i ? "bg-neutral-200 dark:bg-neutral-600" : ""
+                                        } hover:bg-neutral-200 dark:hover:bg-neutral-600`}>
                                         {cmd}
                                     </div>
                                 );
@@ -125,13 +129,13 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                             exit={{ opacity: 0, right: -200 }}
                             transition={{ type: "spring" }}
                             whileHover="animate"
-                            className="bg-slate-100 z-[99] text-nowrap w-fit flex items-center p-2 rounded-md shadow absolute bottom-[15px]">
+                            className="bg-neutral-100 dark:bg-neutral-500 z-[99] text-nowrap w-fit flex items-center p-2 rounded-md shadow absolute bottom-[15px]">
                             <motion.span
                                 initial={{ width: "auto", marginLeft: 0 }}
                                 animate={{ width: 0, marginLeft: -10 }}
                                 variants={commandClear}
                                 transition={{ delay: 2 }}
-                                className="text-slate-800 flex overflow-hidden group-hover:w-auto">
+                                className="text-slate-800 dark:text-neutral-300 flex overflow-hidden group-hover:w-auto">
                                 გასუფთავების რეჟიმი
                             </motion.span>
                             <input
@@ -143,25 +147,25 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                             />
                             <label
                                 htmlFor="donotclear"
-                                className="cursor-pointer flex items-center w-12 h-6 bg-slate-500 group peer-checked:bg-green-500 relative px-1 ml-3 rounded-xl after:bg-white after:w-4 after:h-4 after:rounded-full after:absolute after:flex peer-checked:after:ml-[calc(100%-24px)] after:transition-all after:duration-300"
+                                className="cursor-pointer flex items-center w-12 h-6 bg-neutral-500 dark:bg-neutral-200 group peer-checked:bg-green-500/75 relative px-1 ml-3 rounded-xl after:bg-white dark:after:bg-neutral-600 after:w-4 after:h-4 after:rounded-full after:absolute after:flex peer-checked:after:ml-[calc(100%-24px)] after:transition-all after:duration-300"
                             />
                         </motion.div>
                     )}
                 </AnimatePresence>
                 <textarea
-                    className="border-[1px] border-slate-300 shadow-sm p-3 rounded-md resize-none w-full h-full outline-none flex-[13] text-slate-700"
+                    className="border-[1px] border-neutral-300 dark:border-neutral-600 p-3 rounded-md resize-none w-full h-full outline-none flex-[13] text-neutral-700 dark:text-neutral-300"
                     placeholder="ბრძანება. მზა ბრძანებისთვის გამოიყენეთ @. მაგ.: @someCommand"
                     value={command}
                     spellCheck={false}
                     onKeyDown={handleSelectCommand}
                     onChange={handleChangeCommand}></textarea>
             </div>
-            <div className="bg-white flex flex-col gap-y-2 p-2 border-[1px] rounded-md border-slate-300 shadow-sm w-[75px]">
+            <div className="bg-white dark:bg-neutral-800 flex flex-col gap-y-2 p-2 border-[1px] rounded-md border-neutral-300 dark:border-neutral-600 w-[75px]">
                 <div className="relative flex w-full h-full">
                     <motion.button
                         whileTap={{ scale: 1.1 }}
                         transition={{ type: "spring", damping: 11, stiffness: 300 }}
-                        className="bg-slate-200 hover:bg-slate-200/75 active:bg-slate-300 w-full h-full flex items-center justify-center rounded-md text-2xl text-slate-700 cursor-pointer"
+                        className="bg-neutral-200/25 hover:bg-neutral-200/30 active:bg-neutral-300/15 text-neutral-700 dark:text-neutral-300 w-full h-full flex items-center justify-center rounded-md text-2xl cursor-pointer"
                         onClick={showCommandLineHelp}>
                         <FiInfo />
                     </motion.button>
@@ -170,14 +174,14 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                 <motion.button
                     whileTap={{ scale: 1.1 }}
                     transition={{ type: "spring", damping: 11, stiffness: 300 }}
-                    className="bg-amber-400 hover:bg-amber-400/90 active:bg-amber-500 h-full flex items-center justify-center rounded-md text-2xl text-white cursor-pointer"
+                    className="bg-amber-400 hover:bg-amber-400/90 active:bg-amber-500 dark:bg-amber-400/75 dark:hover:bg-amber-400/85 dark:active:bg-amber-400/90 h-full flex items-center justify-center rounded-md text-2xl text-white cursor-pointer"
                     onClick={() => setCommand(lastCommand)}>
                     <FaRepeat />
                 </motion.button>
                 <motion.button
                     whileTap={{ scale: 1.1 }}
                     transition={{ type: "spring", damping: 11, stiffness: 300 }}
-                    className="bg-blue-400 hover:bg-blue-400/90 active:bg-blue-500 h-full flex items-center justify-center rounded-md text-2xl text-white cursor-pointer"
+                    className="bg-blue-400 hover:bg-blue-400/90 active:bg-blue-500 dark:bg-blue-400/75 dark:hover:bg-blue-400/85 dark:active:bg-blue-400/90 h-full flex items-center justify-center rounded-md text-2xl text-white cursor-pointer"
                     onClick={sendClientCommand}>
                     <RiSendPlaneFill className="mr-0.5" />
                 </motion.button>

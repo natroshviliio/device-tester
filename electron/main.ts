@@ -30,6 +30,7 @@ function createWindow() {
         width: 1600,
         height: 900,
         frame: false,
+        transparent: true,
         // titleBarStyle: "hiddenInset",
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
         webPreferences: {
@@ -127,15 +128,11 @@ ipcMain.handle("try_connect", async (_, serverPort: string) => {
     try {
         const isPortReady = execSync(`netstat -an | find ":${serverPort} "`).toString();
         if (isPortReady.includes("ESTABLISHED") || isPortReady.includes("TIME_WAIT")) {
-            httpServer.listen(serverPort, () => {
-                console.log("Server is running on port:", serverPort);
-            });
+            httpServer.listen(serverPort, () => {});
         }
     } catch (err: string | any) {
         if (err.toString().startsWith("Error: Command failed:")) {
-            httpServer.listen(serverPort, () => {
-                console.log("Server is running on port:", serverPort);
-            });
+            httpServer.listen(serverPort, () => {});
         }
     }
 
@@ -178,8 +175,9 @@ ipcMain.on("window_minimize", () => {
     win?.minimize();
 });
 ipcMain.on("window_maximize", () => {
-    if (win?.isMaximized()) win?.unmaximize();
-    else win?.maximize();
+    if (win?.isMaximized()) {
+        win?.unmaximize();
+    } else win?.maximize();
 });
 ipcMain.on("window_close", () => {
     win?.close();
