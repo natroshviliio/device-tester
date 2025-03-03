@@ -31,8 +31,8 @@ const ServerParameters: FC<ServerParameters> = ({ setChat, setClients, setSelect
 
     return (
         <div
-            className={`px-6 py-4 flex flex-col flex-0 gap-y-2 border-b border-neutral-200 bg-white dark:bg-neutral-800 dark:border-neutral-700 z-30 ${
-                theme.designStyle === "2" ? "rounded-t-2xl" : ""
+            className={`px-6 py-4 flex flex-col flex-0 gap-y-2 border-b border-neutral-200 transition-[border-radius] duration-300 bg-white dark:bg-neutral-800 dark:border-neutral-700 z-30 ${
+                theme.designStyle === "2" ? "rounded-t-2xl" : "rounded-0"
             }`}>
             <div className="flex gap-x-2 ms-3 items-center">
                 <input

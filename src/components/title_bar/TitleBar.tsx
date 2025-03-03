@@ -19,17 +19,22 @@ const TitleBar = () => {
     const closeWindow = () => window.ipcRenderer.closeWindow();
 
     return (
-        <div className={`flex items-center dark:text-neutral-200 font-bpg-arial z-[999] ${theme.designStyle === "2" ? "gap-x-3 mb-2" : ""}`}>
+        <div
+            className={`flex items-center font-bpg-arial transition-[gap,margin] duration-300 z-[999] ${
+                theme.designStyle === "2" ? "gap-x-3 mb-3" : "gap-x-0 mb-0"
+            }`}>
             <div
-                className={`flex w-full items-center pl-4 py-3 ${
-                    theme.designStyle === "2" ? "rounded-l-full rounded-r-full" : "rounded-tl-2xl"
+                className={`flex w-full items-center pl-4 py-3 transition-[border-radius] duration-300 ${
+                    theme.designStyle === "2" ? "rounded-4xl" : "rounded-tl-3xl"
                 } bg-white dark:bg-neutral-800 drag border-b-[0.5px] border-neutral-100 dark:border-neutral-700`}>
                 <span className="bg-[url('/electron-vite.svg')] bg-contain bg-no-repeat w-5 h-5" />
-                <span className="mt-1 ml-2 font-bpg-square-banner-caps-2013 text-sm uppercase">{documentTitle}</span>
+                <span className="mt-1 ml-2 font-bpg-square-banner-caps-2013 text-sm uppercase text-neutral-800 dark:text-neutral-200">
+                    {documentTitle}
+                </span>
             </div>
             <div
-                className={`flex gap-x-2 px-4 items-center ml-auto no-drag h-full bg-white dark:bg-neutral-800 drag border-b-[0.5px] border-neutral-100 dark:border-neutral-700 ${
-                    theme.designStyle === "2" ? "rounded-l-full rounded-r-full" : "rounded-tr-2xl"
+                className={`flex gap-x-2 px-4 items-center ml-auto no-drag h-full transition-[border-radius] duration-300 bg-white dark:bg-neutral-800 drag border-b-[0.5px] border-neutral-100 dark:border-neutral-700 ${
+                    theme.designStyle === "2" ? "rounded-4xl" : "rounded-tr-3xl"
                 }`}>
                 <div className="relative">
                     <motion.div
