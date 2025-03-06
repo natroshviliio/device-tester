@@ -6,7 +6,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import ChatCommandLineHelp from "./ChatCommandLineHelp";
 
 type ChatCommandLine = {
-    commands: string[];
+    commands: Command[];
     selectedClients: Client[];
     setChat: Dispatch<SetStateAction<ChatMessage[]>>;
 };
@@ -41,8 +41,8 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
         if (commands.length > 0) setSelectedCommandIndex(0);
         if (e.target.value.startsWith("@")) {
             const probableCommand = e.target.value.slice(1).toLowerCase();
-            if (commands.some((cmd) => cmd.toLocaleLowerCase().startsWith(probableCommand))) {
-                setSelectedCommandIndex(commands.findIndex((cmd) => cmd.toLocaleLowerCase().startsWith(probableCommand)));
+            if (commands.some((cmd) => cmd.command.toLocaleLowerCase().startsWith(probableCommand))) {
+                setSelectedCommandIndex(commands.findIndex((cmd) => cmd.command.toLocaleLowerCase().startsWith(probableCommand)));
             }
         }
         if (e.target.value.startsWith("@") && !showCommands && !commandEscaped) setShowCommands(true);
@@ -63,7 +63,7 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
             } else if (e.key === "Enter") {
                 e.preventDefault();
                 setShowCommands(false);
-                setCommand(commands[selectedCommandIndex]);
+                setCommand(commands[selectedCommandIndex].command);
             } else if (e.key === "Escape") {
                 setShowCommands(false);
                 setCommandEscaped(true);
@@ -109,7 +109,7 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                                         className={`px-4 py-2 ${
                                             selectedCommandIndex === i ? "bg-neutral-200 dark:bg-neutral-600" : ""
                                         } hover:bg-neutral-200 dark:hover:bg-neutral-600`}>
-                                        {cmd}
+                                        {cmd.command}
                                     </div>
                                 );
                             })}

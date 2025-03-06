@@ -6,7 +6,7 @@ import { HiOutlineMinusSmall } from "react-icons/hi2";
 
 type EachCommand = {
     command: Command;
-    editIndex: number | undefined;
+    editableCommand: number | undefined;
     i: number;
     inputRef: RefObject<HTMLInputElement>;
     handleChangeCmd: (e: ChangeEvent<HTMLInputElement>, i: number) => void;
@@ -15,14 +15,14 @@ type EachCommand = {
     selectToEdit: (i: number) => void;
 };
 
-const Command: FC<EachCommand> = ({ command, editIndex, i, inputRef, handleChangeCmd, saveCommand, removeCommand, selectToEdit }) => {
+const Command: FC<EachCommand> = ({ command, editableCommand, i, inputRef, handleChangeCmd, saveCommand, removeCommand, selectToEdit }) => {
     const dragControl = useDragControls();
 
     return (
         <Reorder.Item value={command} dragListener={false} dragControls={dragControl}>
             <motion.div
-                className={`pl-3 h-13 flex items-center w-full rounded-md overflow-hidden mt-3 relative pr-0 border-b border-neutral-200 dark:border-neutral-600 transition-colors duration-150 hover:bg-neutral-50/50 dark:hover:bg-neutral-500/25 ${
-                    editIndex === i ? "bg-neutral-50 dark:bg-neutral-700/75" : "bg-white dark:bg-neutral-700/50"
+                className={`pl-3 h-13 flex items-center w-full rounded-md overflow-hidden mt-3 relative pr-0 border-b border-neutral-200 dark:border-neutral-600 transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-500/25 ${
+                    editableCommand === command.command_id ? "bg-neutral-100 dark:bg-neutral-700/75" : "bg-neutral-50 dark:bg-neutral-700/50"
                 }`}
                 initial={{ x: "-100%", opacity: 0 }}
                 animate={{ x: "0%", opacity: 1 }}
@@ -31,7 +31,7 @@ const Command: FC<EachCommand> = ({ command, editIndex, i, inputRef, handleChang
                 <motion.span className="mr-1 mb-0.5 text-lg cursor-pointer" onPointerDown={(e) => dragControl.start(e)}>
                     <GoGrabber />
                 </motion.span>
-                {editIndex === i ? (
+                {editableCommand === command.command_id ? (
                     <>
                         <motion.input
                             initial={{ paddingLeft: 0 }}
@@ -62,9 +62,13 @@ const Command: FC<EachCommand> = ({ command, editIndex, i, inputRef, handleChang
                     </>
                 ) : (
                     <>
-                        <span className="w-full h-full flex items-center" onClick={() => selectToEdit(i)}>
+                        <motion.span
+                            initial={{ paddingLeft: "0.75rem" }}
+                            animate={{ paddingLeft: 0 }}
+                            className="w-full h-full flex items-center"
+                            onClick={() => selectToEdit(command.command_id)}>
                             {command.command}
-                        </span>
+                        </motion.span>
                         <AnimatePresence>
                             <motion.button
                                 key={"b"}

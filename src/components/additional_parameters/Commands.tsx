@@ -7,12 +7,12 @@ import Command from "./Command";
 
 const Commands = () => {
     const { commands, setCommands } = appContext();
-    const [editIndex, setEditIndex] = useState<number>();
+    const [editableCommand, setEditableCommand] = useState<number>();
     const inputRef = useRef<HTMLInputElement>(null);
     const commandsRef = useRef<HTMLDivElement>(null);
 
     const selectToEdit = (i: number) => {
-        setEditIndex(i);
+        setEditableCommand(i);
     };
 
     const handleChangeCmd = (e: ChangeEvent<HTMLInputElement>, i: number) => {
@@ -37,20 +37,20 @@ const Commands = () => {
             command: "",
         };
         if (commands[commands.length - 1]?.command.length > 0) {
-            setCommands([...commands, command]).then((cmds) => {
-                setEditIndex(cmds?.length - 1);
+            setCommands([...commands, command]).then(() => {
+                setEditableCommand(command.command_id);
             });
         }
         if (commands.length === 0) {
             setCommands([...commands, command]).then(() => {
-                setEditIndex(0);
+                setEditableCommand(command.command_id);
             });
         }
     };
 
     const saveCommand = async () => {
         await setCommands(commands, true);
-        setEditIndex(undefined);
+        setEditableCommand(undefined);
     };
 
     const removeCommand = (i: number) => {
@@ -58,12 +58,12 @@ const Commands = () => {
             commands.filter((_, idx) => idx !== i),
             true
         );
-        setEditIndex(undefined);
+        setEditableCommand(undefined);
     };
 
     useEffect(() => {
         inputRef.current?.focus();
-    }, [editIndex]);
+    }, [editableCommand]);
 
     useEffect(() => {
         if (commandsRef.current) commandsRef.current.scrollTop = commandsRef.current.scrollHeight;
@@ -80,7 +80,7 @@ const Commands = () => {
                                     key={cmd.command_id}
                                     command={cmd}
                                     i={i}
-                                    editIndex={editIndex}
+                                    editableCommand={editableCommand}
                                     inputRef={inputRef}
                                     handleChangeCmd={handleChangeCmd}
                                     saveCommand={saveCommand}
