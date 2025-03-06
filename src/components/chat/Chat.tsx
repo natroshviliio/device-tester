@@ -2,17 +2,18 @@ import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import ChatClientList from "./ChatClientList";
 import ChatBody from "./ChatBody";
 import ChatCommandLine from "./ChatCommandLine";
+import { appContext } from "../../store";
 
 type Chat = {
     selectedClients: Client[];
     setSelectedClients: Dispatch<SetStateAction<Client[]>>;
-    commands: string[];
     selectClient: (client: Client) => void;
     chat: ChatMessage[];
     setChat: Dispatch<SetStateAction<ChatMessage[]>>;
 };
 
-const Chat: FC<Chat> = ({ selectedClients, commands, chat, setSelectedClients, selectClient, setChat }) => {
+const Chat: FC<Chat> = ({ selectedClients, chat, setSelectedClients, selectClient, setChat }) => {
+    const { commands } = appContext();
     const clearChat = () => setChat([]);
 
     useEffect(() => {
@@ -22,8 +23,8 @@ const Chat: FC<Chat> = ({ selectedClients, commands, chat, setSelectedClients, s
     });
 
     return (
-        <div className="flex flex-col flex-[9] bg-white dark:bg-neutral-800 font-bpg-arial max-w-[800px] border-r border-neutral-200 dark:border-r-neutral-700">
-            <div className="bg-white dark:bg-neutral-800 flex flex-col flex-[1] gap-y-5 p-5">
+        <div className="flex flex-col bg-white dark:bg-neutral-800 font-bpg-arial xl:w-[500px] 2xl:w-[700px] transition-[width] duration-300 border-r border-neutral-200 dark:border-r-neutral-700">
+            <div className="bg-white dark:bg-neutral-800 flex flex-col flex-[1] gap-y-5 p-5 w-full">
                 <ChatClientList selectedClients={selectedClients} setSelectedClients={setSelectedClients} selectClient={selectClient} />
                 <ChatBody chat={chat} clearChat={clearChat} />
             </div>

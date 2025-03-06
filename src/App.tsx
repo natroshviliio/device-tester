@@ -1,16 +1,16 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import "./App.css";
 import ServerParameters from "./components/server_parameters/ServerParameters";
 import DeviceList from "./components/device_list/DeviceList";
 import Chat from "./components/chat/Chat";
 import TitleBar from "./components/title_bar/TitleBar";
 import { appContext } from "./store";
+import AdditionalParameters from "./components/additional_parameters/AdditionalParameters";
 
 function App() {
-    const { theme } = appContext();
+    const { theme, setTheme, setCommands } = appContext();
     const [clients, setClients] = useState<Client[]>([]);
     const [selectedClients, setSelectedClients] = useState<Client[]>([]);
-    const [commands, setCommands] = useState<string[]>(["Num:", "Open:", "Message:", "ChangeColor:"]);
     void setCommands;
     const [chat, setChat] = useState<ChatMessage[]>([]);
 
@@ -29,11 +29,22 @@ function App() {
         else setSelectedClients((c) => [...c, client]);
     };
 
+    useEffect(() => {
+        const _theme = JSON.parse(localStorage.getItem("theme") as string);
+        const commands = JSON.parse(localStorage.getItem("commands") as string);
+
+        if (!_theme) localStorage.setItem("theme", JSON.stringify(theme));
+        else setTheme(_theme);
+
+        if (!commands) localStorage.setItem("commands", JSON.stringify([]));
+        else setCommands(commands);
+    }, []);
+
     return (
         <div className={`select-none w-full h-screen overflow-hidden flex flex-col font-alk-sanet ${theme.mode}`}>
             <TitleBar />
             <ServerParameters setClients={setClients} setSelectedClients={setSelectedClients} setChat={setChat} />
-            <div className="flex flex-[1]  rounded-b-2xl overflow-hidden" onMouseMove={resizeDeviceListBox} onMouseUp={() => isBoxResizing(false)}>
+            <div className="flex flex-[1] rounded-b-2xl overflow-hidden" onMouseMove={resizeDeviceListBox} onMouseUp={() => isBoxResizing(false)}>
                 <DeviceList
                     clients={clients}
                     selectedClients={selectedClients}
@@ -46,13 +57,12 @@ function App() {
                 />
                 <Chat
                     selectedClients={selectedClients}
-                    commands={commands}
                     chat={chat}
                     setSelectedClients={setSelectedClients}
                     selectClient={selectClient}
                     setChat={setChat}
                 />
-                <div className="flex flex-col flex-[8] bg-white dark:bg-neutral-800"></div>
+                <AdditionalParameters />
             </div>
         </div>
     );

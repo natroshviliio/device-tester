@@ -92,7 +92,7 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
     };
 
     return (
-        <div className="bg-white dark:bg-neutral-800 flex gap-x-2 flex-[10] px-5 pb-5 relative">
+        <div className="bg-white dark:bg-neutral-800 flex gap-x-2 flex-[10] px-5 pb-5 relative w-full">
             <AnimatePresence>
                 {showCommands && (
                     <motion.div
@@ -100,7 +100,7 @@ const ChatCommandLine: FC<ChatCommandLine> = ({ commands, selectedClients, setCh
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -300 }}
                         transition={{ type: "spring", damping: 18, stiffness: 200 }}
-                        className="absolute overflow-hidden shadow-sm rounded-md bottom-[calc(100%+10px)] left-[40px] bg-white text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300">
+                        className="absolute overflow-hidden shadow-sm rounded-md bottom-[calc(100%+10px)] min-w-[200px] left-[40px] bg-white text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300">
                         <div className="">
                             {commands.map((cmd, i) => {
                                 return (

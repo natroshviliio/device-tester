@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Notification } from "electron";
+import { app, BrowserWindow, ipcMain, Notification, screen } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -40,6 +40,11 @@ function createWindow() {
 
     app.setAppUserModelId("Device Tester");
     win.setMenuBarVisibility(false);
+
+    const w = screen.getPrimaryDisplay().workArea.width;
+    const h = screen.getPrimaryDisplay().workArea.height;
+    win.setSize(Math.round(w * 0.9), Math.round(h * 0.9));
+    win.center();
 
     // win.webContents.openDevTools();
     // Test active push message to Renderer-process.
@@ -85,8 +90,8 @@ const Sockets = new Set<WSocket>();
 
 wss.on("connection", (socket: WSocket, req) => {
     const protocol: string[] = socket.protocol.split("|");
-    const socket_type = protocol[0];
-    const socket_id = protocol[1];
+    const socket_type = protocol[0] ? protocol[0] : "UNKNOWN";
+    const socket_id = protocol[1] ? protocol[1] : "AUTO_ID_" + wss.clients.size + 1;
     const socket_ip = req.socket.remoteAddress?.replace(/[:f]/g, "") as string;
 
     socket.client_information = { socket_id, socket_type, socket_ip };
@@ -106,7 +111,6 @@ wss.on("connection", (socket: WSocket, req) => {
         new Notification({
             title: socket_type + " " + socket_id,
             body: data.toString(),
-            toastXml: "asd",
         }).show();
     });
 
@@ -152,11 +156,18 @@ ipcMain.handle("close_server", async () => {
 
 ipcMain.on("client_send_command", (_, data: { clientList: Client[]; command: string }) => {
     const clients = data.clientList.map((client) => client.id);
-    Sockets.forEach((client) => {
-        if (clients.includes(client.client_information.socket_id)) {
+
+    if (clients.length > 0) {
+        Sockets.forEach((client) => {
+            if (clients.includes(client.client_information.socket_id)) {
+                client.send(data.command);
+            }
+        });
+    } else {
+        Sockets.forEach((client) => {
             client.send(data.command);
-        }
-    });
+        });
+    }
 });
 
 ipcMain.on("client_destroy", (_, client_id: string) => {

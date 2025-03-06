@@ -33,7 +33,7 @@ const DeviceList: FC<DeviceList> = ({ clients, selectedClients, x, isResizing, s
 
     return (
         <div
-            className={`min-w-[250px] max-w-[500px] flex overflow-hidden h-[calc(100vh-7.82rem)] pb-1 relative bg-white dark:bg-neutral-800 border-r border-r-neutral-200 dark:border-neutral-700 z-20`}
+            className={`min-w-[250px] max-w-[500px] flex overflow-hidden h-[calc(100vh-7.7rem)] pb-1 relative bg-white dark:bg-neutral-800 border-r border-r-neutral-200 dark:border-neutral-700 z-20`}
             style={{ width: x + "px" }}>
             <Reorder.Group onReorder={setClients} values={clients} axis="y" className="w-full flex flex-col overflow-x-hidden hide-scroll relative">
                 <div

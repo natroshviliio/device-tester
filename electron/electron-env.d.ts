@@ -31,6 +31,13 @@ interface Window {
     };
 }
 
+type Mode = "dark" | "light";
+type DesignStyle = "1" | "2";
+type Theme = {
+    mode: Mode;
+    designStyle: DesignStyle;
+};
+
 type Client = {
     id: string;
     ip_address: string;
@@ -47,4 +54,9 @@ type ChatMessage = {
     who: string;
     message: string;
     time: string;
+};
+
+type Command = {
+    command_id: number;
+    command: string;
 };
